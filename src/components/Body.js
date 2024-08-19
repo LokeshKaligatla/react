@@ -1,33 +1,49 @@
-import RestaurantCard from "./RestaurantCard";
-import resList from "../utils/mockData";
-import { useState } from "react";
+
+import React,{ useEffect, useState } from "react";
+import Restaurant from "./Restaurant";
+import Shimmer from "./shimmer";
 
 
 const Body = () => {
 
-    const [ListofRestaurants, setListofRestauranrs] = useState(resList);
+    const [ListofRestaurants, setListOfRestaurants] = useState([]);
 
-    return (
-      <div className="body">
-        <div className="search-container">
-          <input type="text" placeholder="Search Food or Restaurant" />
-          <button className="filter" onClick={ () => {
-           const filteredList = ListofRestaurants.filter(
-                (res) => res.data.avgRating > 4
-            );
-            setListofRestauranrs(filteredList)
-            console.log(filteredList);
-          }}>Search</button>
-        </div>
-        <div className="res-container">
-         
-          {ListofRestaurants.map((restaurant) => (
-            <RestaurantCard key={restaurant.data.id} resData={restaurant} />
-          ))}
-  
-         </div>
-      </div>
-    );
+    const [searchText, setSearchText] = useState("");
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+    const fetchData = async () => {
+
+     try {
+       const data = await fetch(
+         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.37240&lng=78.43780&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+       );
+ 
+       const json = await data.json();
+ 
+     console.log("all",json.data)
+                  
+     setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+     
+     } catch (error) {
+      console.log("error",error)
+     }
+    }
+    
+    // conditional rendering
+    if(ListofRestaurants.length === 0){
+      return <Shimmer />
+
+    }
+
+   
+
+     return (
+     <Restaurant Data={ListofRestaurants}/>
+     );
+    
   };
 
   export default Body;
