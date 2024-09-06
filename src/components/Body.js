@@ -1,6 +1,6 @@
 
 import React,{ useEffect, useState } from "react";
-
+import useOnlineStatus from "../utils/useOnlineStatus";
 import Shimmer from "./shimmer";
 import RestaurantCard from "./RestaurantCard";
 import { Link } from "react-router-dom";
@@ -35,6 +35,10 @@ const Body = () => {
       console.log("error",error)
      }
     }
+
+    const onlineStatus = useOnlineStatus();
+
+    if(onlineStatus === false)return <h1>Looks like ypu are Offline !!!</h1>
     
     // conditional rendering
    return ListofRestaurants.length === 0 ? (
