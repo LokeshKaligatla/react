@@ -17,12 +17,12 @@ const RestaurantMenu = () => {
   console.log("BBB",itemCards);
 
     return (
-        <div className="menu">  
+        <div className="bg-gray-100">  
 
                 
-            <h1>{name}</h1>            
+            <h1 className="font-bold">{name}</h1>            
             <p>{cuisines.join(",")} - {costForTwoMessage}</p>
-            <h2>Menu</h2>          
+            <h2 className="font-bold">Menu</h2>          
             
             <ul>
                 {itemCards.map((item) => (<li key={item.card.info.id}>{item.card.info.name} - {"Rs "}{item.card.info.price/100}</li>))}                               

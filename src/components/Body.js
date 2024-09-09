@@ -47,20 +47,20 @@ const Body = () => {
 
     <div className="body">
       <div className="filter">
-      <h1>Restaurents</h1>
-        <div className="search">
-          
+     
+        <div className="search m-4 mb-0 p-4">
+        <h1 className="font-bold text-xl">Restaurents</h1>
           <input 
           type="text"
           placeholder="search"
-          className="search-Box"
+          className="border border-solid border-black rounded-lg"
           value={searchText}
           onChange={(e)=>{
             setSearchText(e.target.value)
           }}
           />
 
-          <button
+          <button className="px-4 bg-green-100 m-4 rounded-lg"
           onClick={()=>{
             console.log(searchText);
             const filteredRestaurant = ListofRestaurants.filter((res) =>
@@ -70,7 +70,7 @@ const Body = () => {
           }}
           >Search</button>
 
-          <button className="filter"
+          <button className="px-4 py-1 bg-gray-100 rounded-lg"
           onClick={()=>{
             console.log("hii")
             const filteredRestaurant = ListofRestaurants.filter(
@@ -83,7 +83,7 @@ const Body = () => {
         </div>
 
         
-     <div className="ress-body">
+     <div className="flex flex-wrap">
       {filteredRestaurant.length > 0 ? (
         filteredRestaurant.map((restaurant, index) => (
           <div key={index}>
