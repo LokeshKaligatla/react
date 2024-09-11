@@ -1,9 +1,10 @@
 
-import React,{ useEffect, useState } from "react";
+import React,{ useContext, useEffect, useState } from "react";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import Shimmer from "./shimmer";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotion } from "./RestaurantCard";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/UserContext";
 
 
 const Body = () => {
@@ -11,6 +12,8 @@ const Body = () => {
     const [ListofRestaurants, setListOfRestaurants] = useState([]);
     const[filteredRestaurant,setFilteredRestaurant]=useState([]);
     const [searchText, setSearchText] = useState("");
+
+    const RestaurantCardPromotion = withPromotion(RestaurantCard);
 
     useEffect(() => {
       fetchData();
@@ -26,6 +29,7 @@ const Body = () => {
        const json = await data.json();
  
     console.log("all",json)
+    console.log("cards",ListofRestaurants);
                   
      setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
      setFilteredRestaurant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -39,6 +43,8 @@ const Body = () => {
     const onlineStatus = useOnlineStatus();
 
     if(onlineStatus === false)return <h1>Looks like ypu are Offline !!!</h1>
+
+    const {loggedInUser, setUserName} = useContext(UserContext)
     
     // conditional rendering
    return ListofRestaurants.length === 0 ? (
@@ -53,7 +59,7 @@ const Body = () => {
           <input 
           type="text"
           placeholder="search"
-          className="border border-solid border-black rounded-lg"
+          className="border border-solid border-black rounded-lg px-2"
           value={searchText}
           onChange={(e)=>{
             setSearchText(e.target.value)
@@ -79,6 +85,14 @@ const Body = () => {
       setFilteredRestaurant(filteredRestaurant)
           }}
           >Top rated</button>
+          
+          <label className="m-2">UserName :</label>
+          <input type="text"
+           placeholder="Set userName"
+           className="border border-solid border-black rounded-lg px-2"
+           value={loggedInUser}
+           onChange={(e) => setUserName(e.target.value)} />
+          
 
         </div>
 
@@ -87,7 +101,12 @@ const Body = () => {
       {filteredRestaurant.length > 0 ? (
         filteredRestaurant.map((restaurant, index) => (
           <div key={index}>
-       <Link to={"/restaurants/"+restaurant.info.id}> <RestaurantCard resData={restaurant}/> </Link>
+       <Link to={"/restaurants/"+restaurant.info.id}>
+       {restaurant.info.avgRating > 4.4 ? (
+        <RestaurantCardPromotion resData={restaurant}/>
+       ):(
+        <RestaurantCard resData={restaurant}/>
+        )} </Link>
           </div>
         ))
       ) : (

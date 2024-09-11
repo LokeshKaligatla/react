@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { CDN_URL } from "../utils/consonents";
+import UserContext from "../utils/UserContext";
 
 const RestaurantCard = (props) => {
     const { resData } = props;
+    const{loggedInUser} = useContext(UserContext)
   
     // if (!resData || !resData.info) {
       
@@ -33,11 +36,26 @@ const RestaurantCard = (props) => {
         <h4>{avgRating} stars</h4>
         <h4>{costForTwo }</h4>
         <h4>{sla?.slaString}</h4>
+        <h4>User : {loggedInUser}</h4>
 
         </div>
         
       </div>
     );
   };
+
+  // higher order component (takes component as input and return another component)
+  // input - RestaurantCard ==>> restaurantcardprompted
+
+  export const withPromotion = (RestaurantCard) => {
+    return(props) => {
+      return(
+        <div>
+          <label className="absolute bg-black text-white m-2 p-1 rounded-lg">Prompted</label>
+          <RestaurantCard {...props} />
+        </div>
+      )
+    }
+  }
 
   export default RestaurantCard;
