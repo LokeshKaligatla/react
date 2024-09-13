@@ -3,6 +3,7 @@ import { LOGO_URL } from "../utils/consonents";
 import { useContext, useState } from "react";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
 
@@ -11,8 +12,11 @@ const Header = () => {
 
   const {loggedInUser} = useContext(UserContext);
 
+  const cartItems = useSelector((store) => store.cart.items);
+  //console.log("items", cartItems);
+
     return (
-      <div className="flex justify-between sm:bg-pink-200 shadow-lg m-2 lg:bg-yellow-100 rounded-lg">
+      <div className="flex justify-between sm:bg-green-200 shadow-lg m-2 lg:bg-yellow-100 rounded-lg">
         <div className="w-[120px]">
           <img
             src={LOGO_URL}
@@ -26,7 +30,7 @@ const Header = () => {
             <li className="px-4"><Link to ="/">Home</Link></li>
             <li className="px-4"><Link to="/about">About Us</Link></li>
             <li className="px-4"><Link to="/contact">Contact Us</Link></li>
-            <li className="px-4">Cart</li>
+            <li className="px-4"><Link to="/cart">Cart - ({cartItems.length} items)</Link></li>
             <button className="px-4" onClick={()=>{
               btnName==="Login" ? setbtnName("Logout") : setbtnName("Login");
             }}>{btnName}</button>

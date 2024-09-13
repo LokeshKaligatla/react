@@ -9,6 +9,9 @@ import Contact from './components/Contact';
 import Error from './components/Error';
 import RestaurantMenu from './components/RestaurantMenu';
 import UserContext from './utils/UserContext';
+import { Provider } from 'react-redux';
+import AppStore from './utils/AppStore';
+import Cart from './components/Cart';
 
 //lazy loading usage
 const About = lazy(()=> import('./components/About'))
@@ -26,6 +29,7 @@ useEffect(() => {
 },[])
 
   return (
+    <Provider store={AppStore}>
     <UserContext.Provider value={{loggedInUser:userName, setUserName}}>
     <div className="app">
       <Header />
@@ -33,6 +37,7 @@ useEffect(() => {
       <Footer />
     </div>
     </UserContext.Provider>
+    </Provider>
   );
 };
 
@@ -56,6 +61,10 @@ const appRouter = createBrowserRouter([
       {
         path : "/restaurants/:resId",
         element : <RestaurantMenu />
+      },
+      {
+        path : "/cart",
+        element : <Cart />
       }
     ],
     errorElement : <Error />
