@@ -26,14 +26,14 @@ class  User extends React.Component {
     async componentDidMount(){
         const data = await fetch("https://api.github.com/users/LokeshKaligatla");
         const json = await data.json();
-        console.log(json);
+       // console.log(json);
 
         //the github api have a limit if its stops responding remove the api and add info directly 
 
         this.setState({
             userInfo : json,
         })
-        console.log(json)
+      //  console.log(json)
     }
 
     render(){

@@ -21,6 +21,7 @@ const RestaurantCard = (props) => {
   
     return (
      <div
+     data-testid = "rescard"
      className="m-4 p-4 mx-5 w-[255px] h-[500px] bg-gray-200 rounded-lg shadow-xl hover:bg-gray-300"
      style={{backgroungColor: '#f0f0f0'}}
      >

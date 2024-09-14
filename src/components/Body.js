@@ -28,8 +28,8 @@ const Body = () => {
       // there is a website called corsproxy.io which helps to  get data from another domain withouut cors extension
        const json = await data.json();
  
-    console.log("all",json)
-    console.log("cards",ListofRestaurants);
+    //console.log("all",json)
+    //console.log("cards",ListofRestaurants);
                   
      setListOfRestaurants(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
      setFilteredRestaurant(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -58,6 +58,7 @@ const Body = () => {
         <h1 className="font-bold text-xl">Restaurents</h1>
           <input 
           type="text"
+          data-testid="searchInput"
           placeholder="search"
           className="border border-solid border-black rounded-lg px-2"
           value={searchText}
@@ -68,7 +69,7 @@ const Body = () => {
 
           <button className="px-4 bg-green-100 m-4 rounded-lg"
           onClick={()=>{
-            console.log(searchText);
+           // console.log(searchText);
             const filteredRestaurant = ListofRestaurants.filter((res) =>
             res.info.name.toLowerCase().includes(searchText.toLowerCase())
           );
@@ -78,7 +79,7 @@ const Body = () => {
 
           <button className="px-4 py-1 bg-gray-100 rounded-lg"
           onClick={()=>{
-            console.log("hii")
+           // console.log("hii")
             const filteredRestaurant = ListofRestaurants.filter(
               (res) => res.info.avgRating > 4
             );
